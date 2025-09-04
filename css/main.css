@@ -305,25 +305,68 @@ section p.lead {
   transform: translateX(4px);
 }
 
-/* Center image - smaller with border */
+/* class - gallery-image Center image - 1,2 or 3 images - smaller with border */
 .gallery-image {
-  max-width: 200px;
-  margin: 0 auto;
-  padding: 8px;
-  border: 5px solid var(--border);
+  max-width: 800px;
+  margin: 20px auto 0;
+  padding: 16px;
+  border: 2px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg);
   box-shadow: var(--shadow);
+
+  /*grid for center images*/
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  align-items: center;
 }
 
 .gallery-image img {
   width: 100%;
   height: auto;
+  max-height: 200px;
+  object-fit: contain;
   border-radius: calc(var(--radius) - 4px);
   display: block;
 }
+/* When there are exactly 2 images, make them a bit larger */
+.gallery-image:has(img:nth-child(2):last-child) {
+  grid-template-columns: repeat(2, 1fr);
+}
 
-/* Regular gallery grid for multiple images */
+.gallery-image:has(img:nth-child(2):last-child) img {
+  max-height: 250px;
+}
+
+/* When there are 3 or more images, keep them in 3 columns */
+.gallery-image:has(img:nth-child(3)) {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Mobile adjustments */
+@media (max-width: 720px) {
+  .feature-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .gallery-image {
+    max-width: 100%;
+    padding: 12px;
+    grid-template-columns: 1fr;
+  }
+  
+  .gallery-image:has(img:nth-child(2):last-child) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .gallery-image img {
+    max-height: 180px;
+  }
+}
+
+/* class GALLEY - Regular bottom gallery grid for multiple images */
 .gallery {
   display: grid;
   gap: 12px;
@@ -361,7 +404,7 @@ section p.lead {
   }
 }
 
-/* Forms */
+/* CLASS - Forms */
 form {
   display: grid;
   gap: 16px;
