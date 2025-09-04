@@ -1,0 +1,576 @@
+    /* ---- Minimal modern CSS (no frameworks) ---- */
+    :root{
+      --bg: #0d1117;
+      --panel: #111827;
+      --ink: #111;
+      --ink-2: #374151;
+      --ink-3: #6b7280;
+      --text: #0f172a;
+      --muted: #475569;
+      --brand: #0ea5e9;  /* primary brand blue */
+      --brand-2:#22d3ee; /* accent */
+      --ok: #16a34a;
+      --warn:#ea580c;
+      --err: #dc2626;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(2,8,23,.08);
+      --maxw: 1100px;
+      --padx: clamp(16px, 4vw, 32px);
+    }
+
+    * { box-sizing: border-box }
+    html, body { height: 100% }
+    body{
+      margin:0;
+      font: 16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+      color: var(--text);
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img{ max-width:100%; height:auto; display:block }
+    a{ color: var(--brand); text-decoration: none }
+    a:hover{ text-decoration: underline }
+    .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 var(--padx) }
+
+        /* ==== HEADER / NAV / BRAND (fixed) ==== */
+    :root{
+      --logo-desktop: 56px; /* adjust to 48–64px to taste */
+      --logo-mobile: 42px;  /* adjust to 32–48px for phones */
+    }
+
+    header{
+      position: sticky; top:0; z-index:50;
+      background:#fff; box-shadow:0 1px 0 rgba(0,0,0,.06);
+    }
+
+    header .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px;
+      min-height: calc(var(--logo-desktop) + 18px);
+    }
+    /* ===================== NAV LAYOUT — FIX ===================== */
+/* Desktop/tablet default: show nav, make links in a single row */
+    header nav{
+      display: block;            /* visible at desktop */
+    }
+    header nav ul{
+      display: flex;             /* lay out items side-by-side */
+      flex-direction: row;
+      align-items: center;
+      gap: clamp(14px, 2.2vw, 24px);
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    header nav li{ margin: 0; }
+    header nav a{
+      display: inline-block;     /* preserves row layout; allows padding */
+      padding: 8px 0;
+      text-decoration: none;
+    }
+
+
+    header .brand{
+      display:flex; align-items:center; gap:12px;
+      font-weight:700; letter-spacing:.2px;
+    }
+
+    /* Single source of truth for logo size */
+    header .brand img{
+      display:block;
+      height: var(--logo-desktop);
+      width: auto;          /* preserve aspect ratio */
+      max-width: none;      /* defeat global img{max-width:100%} */
+      image-rendering: auto;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 860px){
+      header .nav{ min-height: calc(var(--logo-mobile) + 14px); gap:10px; }
+      header .brand img{ height: var(--logo-mobile); }
+    }
+
+    /* ---- REMOVE these from your stylesheet ----
+    .brand img{ width:40px; height:40px }
+    ---------------------------------------------- */
+
+    /* Safety override, if you can’t delete the old rule: */
+    header .brand img{ height: var(--logo-desktop) !important; width:auto !important; }
+    @media (max-width: 860px){
+      header .brand img{ height: var(--logo-mobile) !important; }
+    }
+
+
+    /* Hero */
+    .hero{
+      position:relative; overflow:hidden; background: linear-gradient(180deg,#f8fafc, #fff);
+    }
+    .hero-inner{
+      display:grid; grid-template-columns: 1.1fr .9fr; gap: clamp(16px, 4vw, 40px);
+      align-items:center; padding: min(8vh,80px) 0;
+    }
+    .hero h1{ font-size: clamp(28px, 5vw, 48px); line-height:1.1; margin: 0 0 12px }
+    .hero p{ color: var(--muted); margin: 0 0 20px; font-size: clamp(16px, 2.5vw, 18px) }
+    .badges{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:10px }
+    .card{
+      background:#fff; border:1px solid #e5e7eb; border-radius: var(--radius); box-shadow: var(--shadow);
+      padding:16px;
+    }
+    .hero-visual .card{ padding:0; overflow:hidden }
+    .hero-visual picture, .hero-visual img{ display:block; width:100%; height:100%; object-fit:cover }
+
+    @media (max-width: 860px){
+      .hero-inner{ grid-template-columns: 1fr }
+    }
+
+    /* Sections */
+    section{ padding: 60px 0 }
+    section h2{ font-size: clamp(24px, 3.6vw, 36px); margin: 0 0 12px }
+    section p.lead{ color: var(--muted); margin:0 0 26px }
+
+    /* Services grid */
+    .grid{
+      display:grid; gap:16px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .span-4{ grid-column: span 4 }
+    .span-6{ grid-column: span 6 }
+    .span-12{ grid-column: 1 / -1 }
+    @media (max-width: 920px){
+      .span-4{ grid-column: span 6 }
+    }
+    @media (max-width: 640px){
+      .span-4, .span-6{ grid-column: span 12 }
+    }
+
+    .svc{ display:flex; gap:12px; align-items:flex-start; padding:18px; border:1px solid #e5e7eb; border-radius: var(--radius); background:#fff }
+    .svc i{
+      width:36px; height:36px; border-radius:10px; display:inline-grid; place-items:center;
+      border:1px solid #e5e7eb; font-style:normal; font-weight:800;
+      background:linear-gradient(180deg,#ecfeff, #e0f2fe);
+      color:#0369a1;
+    }
+    .svc h3{ margin: 2px 0 6px; font-size:18px }
+    .svc p{ margin:0; color: var(--ink-3) }
+
+    /* About */
+    .about{
+      background: #f8fafc;
+      border-top: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .about .cols{
+      display:grid; gap:24px; grid-template-columns: 1.2fr .8fr; align-items:center;
+    }
+    @media (max-width: 860px){
+      .about .cols{ grid-template-columns: 1fr }
+    }
+
+    /* workshop */
+    .gallery{
+      display:grid; gap:10px;
+      grid-template-columns: repeat(6, 1fr);
+    }
+    .gallery img{ border-radius: 10px; border:1px solid #e5e7eb }
+    @media (max-width: 860px){
+      .gallery{ grid-template-columns: repeat(3, 1fr) }
+    }
+    @media (max-width: 520px){
+      .gallery{ grid-template-columns: repeat(2, 1fr) }
+    }
+
+    /* Contact / Form */
+    .contact-card{ display:grid; gap:20px; grid-template-columns: 1.1fr .9fr }
+    @media (max-width: 860px){ .contact-card{ grid-template-columns: 1fr } }
+    form{
+      display:grid; gap:12px; background:#fff; border:1px solid #e5e7eb; border-radius: var(--radius);
+      padding:16px; box-shadow: var(--shadow)
+    }
+    label{ font-weight:600; font-size:14px }
+    input, textarea, select{
+      width:100%; padding:12px 12px; border:1px solid #d1d5db; border-radius:10px; font: inherit;
+      background:#fff;
+    }
+    input:focus, textarea:focus, select:focus{ outline:2px solid #bae6fd; border-color:#7dd3fc }
+    .btn{
+      border:0; background: var(--brand); color:#fff; padding:12px 16px; border-radius:10px; font-weight:700; cursor:pointer
+    }
+    .btn:hover{ filter: brightness(1.05) }
+     /* Responsive Google Map */
+.map-wrap{
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  /* Use modern aspect-ratio with a classic fallback */
+  aspect-ratio: 16 / 9;
+  background: #f1f5f9;
+  position: relative;
+}
+
+/* Fallback for older browsers without aspect-ratio */
+.map-wrap::before{
+  content: "";
+  display: block;
+  padding-top: 56.25%; /* 16:9 */
+}
+.map-wrap > iframe{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Optional: a subtle grayscale to match brand styling (remove if undesired) */
+.map-wrap > iframe{
+  filter: grayscale(10%);
+}
+
+    /* Footer */
+    footer{
+      padding: 30px 0; color:#475569; border-top:1px solid #e5e7eb; background:#fff
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation: none !important; transition: none !important; scroll-behavior: auto !important }
+    }
+/* =============== GALLERY SECTION LAYOUT =============== */
+
+/* 1) Two-column, balanced feature list (auto-even columns) */
+#gallery .feature-list{
+  /* newspaper-style columns keep counts balanced */
+  column-count: 2;
+  column-gap: clamp(16px, 3vw, 28px);
+  /* safari fallbacks */
+  -webkit-column-count: 2;
+  -webkit-column-gap: clamp(16px, 3vw, 28px);
+  margin: 0 0 10px;
+  padding-left: 1.1em;         /* keep bullets visible */
+}
+#gallery .feature-list li{
+  break-inside: avoid;         /* avoid splitting items across columns */
+  -webkit-column-break-inside: avoid;
+  margin: 6px 0;
+  line-height: 1.45;
+}
+/* Mobile: single column for readability */
+@media (max-width: 720px){
+  #gallery .feature-list{
+    column-count: 1;
+    -webkit-column-count: 1;
+  }
+}
+
+/* 2) Car-hoist image: smaller and directly below list */
+#gallery .hoist{
+  /* center the card and cap width; adjust to taste */
+  max-width: 440px;
+  margin: 10px auto 20px; /* sits immediately after the list */
+  padding: 0;             /* keep card minimal; you can restore if you like */
+  overflow: hidden;
+  border-radius: 12px;
+}
+#gallery .hoist img{
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 3) Uniform gallery grid — all images one size */
+#gallery .gallery{
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(12, 1fr); /* aligns with your page grid */
+}
+@media (max-width: 1100px){
+  #gallery .gallery{ grid-template-columns: repeat(8, 1fr); }
+}
+@media (max-width: 860px){
+  #gallery .gallery{ grid-template-columns: repeat(6, 1fr); }
+}
+@media (max-width: 540px){
+  #gallery .gallery{ grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Each image becomes a “tile” with a fixed, consistent aspect ratio */
+#gallery .gallery img{
+  grid-column: span 4;                     /* 3 per row on desktop-like widths */
+  width: 100%;
+  height: clamp(160px, 22vw, 220px);       /* same height for every tile */
+  object-fit: cover;                        /* crops to fill consistently */
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  display: block;
+}
+
+/* If you prefer a precise ratio instead of a fixed height, use this instead:
+#gallery .gallery img{
+  aspect-ratio: 4 / 3;  width: 100%; height: auto; object-fit: cover;
+}
+*/
+/* ================= NAV COLORS — RESTORE / HARDEN ================= */
+
+/* If your tokens are missing, this adds safe fallbacks */
+:root{
+  --text: #0f172a;     /* body/nav text */
+  --brand: #0ea5e9;    /* accent (CTA, hover, active) */
+  --muted: #475569;
+}
+
+/* Base nav links (use a more specific selector than global `a`) */
+header nav a{
+  color: var(--text, #0f172a);
+  font-weight: 600;
+  text-decoration: none;
+}
+header nav a:visited{
+  color: var(--text, #0f172a);
+}
+
+/* Hover/focus state in brand color */
+header nav a:hover,
+header nav a:focus-visible{
+  color: var(--brand, #0ea5e9);
+  text-decoration: none;
+}
+
+/* Active/current page indicator (optional underline bar) */
+header nav a[aria-current="page"]{
+  color: var(--brand, #0ea5e9);
+  position: relative;
+}
+header nav a[aria-current="page"]::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:-8px;
+  height:2px; background: var(--brand, #0ea5e9);
+  border-radius: 2px;
+}
+
+/* Primary call-to-action button keeps its brand fill */
+header .cta{
+  background: var(--brand, #0ea5e9);
+  color:#fff;
+  border-radius: 999px;
+  padding:10px 16px;
+  font-weight: 700;
+  text-decoration: none;
+  display:inline-flex; align-items:center; gap:8px;
+}
+header .cta:hover{ filter: brightness(1.05); text-decoration:none }
+
+
+/* Burger bars keep the dark ink color */
+header .burger span{ background: var(--text, #0f172a); }
+
+/* ===== Mobile menu colors & structure ===== */
+@media (max-width: 860px){
+  /* Ensure the dropdown keeps white bg and readable borders */
+  header nav.open{
+    display:block;
+    background:#fff;
+    border:1px solid #e5e7eb;
+    padding:8px 0;
+    border-radius: 10px;
+  }
+  header nav.open a{
+    display:block;
+    padding:10px var(--padx, 16px);
+    color: var(--text, #0f172a);
+  }
+  header nav.open a:hover{
+    color: var(--brand, #0ea5e9);
+    background: #f8fafc;
+  }
+}
+
+/* --------- LAST-RESORT GUARDRAILS ---------
+   If a global reset like `a{ color: inherit }` or
+   `.nav *{ color: inherit }` still wins later, pin it:
+*/
+header nav a{
+  color: var(--text, #0f172a) !important;
+}
+header nav a:hover,
+header nav a:focus-visible{
+  color: var(--brand, #0ea5e9) !important;
+}
+
+/* ================= HAMBURGER BUTTON — ROBUST ================= */
+
+/* Default: hidden on desktop, shown on mobile */
+.burger{
+  /* Defeat framework defaults that turn buttons into round pills/circles */
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 8px;              /* small rounding, not a circle */
+  margin: 0;
+  padding: 8px;                    /* hit target padding */
+  width: 44px;                     /* consistent tap size */
+  height: 44px;                    /* consistent tap size */
+  display: none;                   /* desktop hides burger */
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  line-height: 0;                  /* avoid stray inline height */
+  cursor: pointer;
+  /* Kill any icon font or pseudo content a framework might inject */
+  font: inherit;
+  color: inherit;
+}
+.burger::before,
+.burger::after{ content: none !important; }
+
+/* The three bars */
+.burger span{
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: var(--text, #0f172a);     /* visible on white header */
+  border-radius: 1px;
+  transition: transform .25s ease, opacity .25s ease, background-color .25s ease;
+}
+.burger span + span{ margin-top: 5px; }  /* space between bars */
+
+/* Focus style for keyboard users */
+.burger:focus-visible{
+  outline: 3px solid #bae6fd;
+  outline-offset: 2px;
+}
+
+/* Show burger and stack nav only on small screens */
+@media (max-width: 860px){
+  .burger{ display: inline-flex; }   /* now visible */
+  header nav{ display: none; }
+  header nav.open{
+    display: block;
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    padding:8px 0;
+  }
+  header nav ul{
+    display:flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin: 0; padding: 0;
+  }
+  header nav a{
+    display:block;
+    padding:10px var(--padx, 16px);
+    color: var(--text, #0f172a);
+  }
+  header nav a:hover{
+    color: var(--brand, #0ea5e9);
+    background:#f8fafc;
+  }
+}
+
+/* Desktop guardrails (keeps horizontal layout) */
+@media (min-width: 861px){
+  header nav{ display: block !important; }
+  header nav ul{
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: clamp(14px, 2.2vw, 24px);
+    margin: 0; padding: 0; list-style: none;
+  }
+}
+
+/* Animated X when menu is open (optional but nice) */
+.burger[aria-expanded="true"] span:nth-child(1){ transform: translateY(8px) rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2){ opacity: 0; }
+.burger[aria-expanded="true"] span:nth-child(3){ transform: translateY(-8px) rotate(-45deg); }
+
+/* If a global rule sets ALL spans to display:none (rare), force show */
+.burger span{ display:block !important; }
+
+/* ================= CTA BUTTON — ROBUST & OVERRIDE-SAFE ================= */
+
+/* Base CTA (class can be used on <a>, <button>, or <input type="button">) */
+.cta,
+.cta:link,
+.cta:visited{
+  /* Layout */
+  display: inline-flex;                     /* inline so it sits next to items in header */
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  /* Sizing */
+  min-height: 40px;                         /* comfy click target */
+  padding: 10px 16px;
+  border-radius: 999px;
+
+  /* Typography */
+  font-weight: 700;
+  text-decoration: none;
+  line-height: 1;
+
+  /* Colors (with fallbacks) */
+  color: #fff !important;
+  background: var(--brand, #0ea5e9) !important;
+
+  /* Borders / shadows */
+  border: 0;
+  box-shadow: var(--shadow, 0 10px 30px rgba(2,8,23,.08));
+
+  /* Behavior */
+  cursor: pointer;
+
+  /* Defeat common resets */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Hover/active/focus */
+.cta:hover{
+  filter: brightness(1.05);
+  text-decoration: none;
+  background: var(--brand, #0ea5e9) !important; /* keep blue even if a reset sets transparent */
+  color:#fff !important;
+}
+.cta:active{
+  transform: translateY(0.5px);
+}
+.cta:focus-visible{
+  outline: 3px solid #bae6fd;
+  outline-offset: 2px;
+}
+
+/* Disabled look (if you ever apply [disabled] or .is-disabled) */
+.cta[disabled], .cta.is-disabled{
+  opacity: .55;
+  cursor: not-allowed;
+  filter: none;
+}
+
+/* Header placement: keep it tidy and vertically centered next to nav */
+header .cta{
+  margin-left: 0;
+}
+
+/* Hero variant (optional): slightly bigger CTA in hero area */
+.hero .cta{
+  min-height: 46px;
+  padding: 12px 18px;
+  font-size: clamp(15px, 1.8vw, 16px);
+}
+
+/* If you use an outline/ghost variant elsewhere, here’s a ready style */
+.cta--outline{
+  background: transparent !important;
+  color: var(--brand, #0ea5e9) !important;
+  border: 2px solid var(--brand, #0ea5e9);
+  box-shadow: none;
+}
+.cta--outline:hover{
+  background: rgba(14,165,233,.08) !important;
+}
+
