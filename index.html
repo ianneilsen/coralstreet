@@ -203,9 +203,15 @@ Give us a call to get a quote on Alternators and Starter Motors</p>
         <p class="lead">Call us or send a message — we’ll get back within one business day.</p>
 
         <div class="contact-card">
-          <form name="contact" method="post" data-netlify="true">
-            <!-- If you prefer Formspree or your own handler, change action/method accordingly -->
+          <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="contact" />
+            <!-- testing netlify before we go to formspree -->
+
+             <!-- bo field-->
+               <p hidden>
+                <label>Don’t fill this out if you're human: <input name="bot-field"></label>
+              </p>
+              
             <div>
               <label for="name">Your Name</label>
               <input id="name" name="name" required autocomplete="name" />
